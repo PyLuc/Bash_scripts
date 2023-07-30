@@ -1,0 +1,4 @@
+#!/bin/bash
+if [ $# -eq 0 ];then echo 'Nebyla zadana cesta k souboru';exit 1;fi
+
+rsync /home/pyluc/github_scripts/pc_information Monika@$1::C:\Users\Monika
