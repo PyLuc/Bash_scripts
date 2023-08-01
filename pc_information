@@ -1,5 +1,18 @@
 #!/bin/bash
-cat /proc/meminfo|grep -i '^mem'
-cat /proc/cpuinfo|grep -i -m1 '^cpu mhz'
-echo "corenumber is $(cat /proc/cpuinfo|grep model|wc -l)"
-echo ahoj
+
+# Vypis informaci o procesoru
+echo "Architecture: $(lscpu | grep 'Architecture' | awk '{print $2}')"
+echo "CPU op-mode(s): $(lscpu | grep 'CPU op-mode(s)' | awk '{print $3}')"
+echo "CPU(s): $(lscpu | grep 'CPU(s)' | awk '{print $2}')"
+echo "Vendor ID: $(lscpu | grep 'Vendor ID' | awk '{print $3}')"
+echo "CPU MHz: $(lscpu | grep 'CPU MHz' | awk '{print $3}')"
+echo "Virtualization: $(lscpu | grep 'Virtualization' | awk '{print $3}')"
+
+# Vypis informaci o OS
+echo ""
+echo "OS Information:"
+echo "Kernel name: $(uname -s)"
+echo "Kernel release: $(uname -r)"
+echo "Kernel version: $(uname -v)"
+echo "Operating system: $(uname -o)"
+
