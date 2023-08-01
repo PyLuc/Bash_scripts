@@ -1,4 +1,17 @@
 #!/bin/bash
-if [ $# -eq 0 ];then echo 'Nebyla zadana cesta k souboru';exit 1;fi
 
-rsync /home/pyluc/github_scripts/pc_information Monika@$1::C:\Users\Monika
+#backup the home directory to remote server
+
+remote_server=192.168.0.111
+backup_file=/home/pyluc/Backup
+backup_log=/home/pyluc/backup_log
+backup_date=$(date +%d-%m-%Y)
+
+if [ ! -d $backup_file ]; then echo "$backup_date no /home directory">> $backup_log; exit 1; fi
+
+if ! ping -c1 $remote_server &>/dev/null; then echo "$backup_date Remote server unreachable">>$backup_log; exit 1; fi
+
+echo "$backup_date Backup started">>$backup_log
+
+rsync -avz $backup_file pyluc@$remote_server:/home/pyluc &>>$backup_log
+if [ $? -ne 0 ]; then echo "$backup_date Backup failed">>$backup_log; else  echo "$backup_date Backup succesfull">>$backup_log; fi
