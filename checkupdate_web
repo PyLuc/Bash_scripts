@@ -1,5 +1,8 @@
 #!/bin/bash
+if [ $# -ne 1 ]; then echo 'No URL specified'; exit 1;fi
+
 curl -s $1  > curl_file2
+
 if cmp -s curl_file2 curl_file1>/dev/null;
 then echo 'stranka  nebyla aktualizovana';
 else cat curl_file2 >curl_file1; echo 'byla aktualizovana';
