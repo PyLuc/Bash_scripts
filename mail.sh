@@ -9,12 +9,10 @@
 your_email=<email>
 
 #check disk usage of root file system
-disk_usage= $(df -h / | awk '/\// {print $5}' | tr -d '%')
+disk_usage=$(df -h / | awk '/\// {print $5}' | tr -d '%')
 timestamp=$(date +%d-%m-%Y' '%T)
 
 #send email if disk usage is higher than 90%
 if [ $disk_usage -gt 90 ];then
-  echo "disk usage is higher than 90 at $timestamp"|mail -s 'Disk usage warning' your_email
+  echo "disk usage is higher than 90% at $timestamp"|mail -s 'Disk usage warning' $your_email
 fi
-
-
