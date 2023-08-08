@@ -3,18 +3,46 @@
 #backup the directory to remote server
 
 remote_server=$1
-backup_file=/home/pyluc/Backup
-backup_log=/home/pyluc/backup_log
+backup_file=$2
+backup_log=~/backup_log
 backup_date=$(date +%d-%m-%Y)
 
+print_help () {
+	echo -e "enter hostname or ip adress of remote server and path to backup file\n"
+	echo 'Sample'
+	echo -e "$0 <hostname || ip adress> <path to backup file>\n"
+	echo "Example"
+	echo "$0 www.example.com /home"
+}
+
+if [ $# -ne 2 ];then
+	print_help;exit 1
+fi 
+
+if !  nslookup $remote_server>/dev/null;then
+	echo  "INVALID IP OR HOSTNAME"
+	print_help 
+	exit 1
+fi 
+
 #check if directory exists
-if [ ! -d $backup_file ]; then echo "$backup_date no /home directory">> $backup_log; exit 1; fi
+if [ ! -d $backup_file ]; then
+	echo "$backup_date backup file not exists">> $backup_log
+	exit 1
+fi
 
 #check connection to remote server
-if ! ping -c1 $remote_server &>/dev/null; then echo "$backup_date Remote server unreachable">>$backup_log; exit 1; fi
+if ! ping -c1 $remote_server &>/dev/null; then
+	echo "$backup_date Remote server unreachable">>$backup_log
+	exit 1
+fi
 
 echo "$backup_date Backup started">>$backup_log
 
 #send directory to remote server
-rsync -avz $backup_file pyluc@$remote_server:/home/pyluc &>>$backup_log
-if [ $? -ne 0 ]; then echo "$backup_date Backup failed">>$backup_log; else  echo "$backup_date Backup succesfull">>$backup_log; fi
+rsync -avz $backup_file $USER@$remote_server:~ &>>$backup_log
+
+if [ $? -ne 0 ]; then 
+	echo "$backup_date Backup failed">>$backup_log
+	else  echo "$backup_date Backup succesfull">>$backup_log
+fi
