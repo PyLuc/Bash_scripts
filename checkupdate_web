@@ -1,15 +1,20 @@
 #!/bin/bash
 
-read  -t 5 -p  "Enter the URL of website you want to check" url
+# Read the URL of the website you want to check
+read -t 5 -p "Enter the URL of the website you want to check: " url
 
-#download website content into curl_file2
-curl -s $url|md5sum>>logfile
+# Get the md5sum of the current curl command
+current_md5=$(curl -s $url | md5sum)
 
-if [ $? -ne 0 ];then echo 'Chyba stahovani'; exit 1;fi
+# Get the md5sum of the previous curl command
+previous_md5=$(cat logfile)
 
-#compare with curl_file1 and check if website was updated
-if [ "$(curl -s $url | md5sum)" == "$(cat logfile)" ]; then
-  echo "website changed"
-  else echo "website not changed"
+# Compare the md5sums
+if [ "$current_md5" == "$previous_md5" ]; then
+    echo "Website not changed"
+else
+    echo "Website changed"
 fi
 
+# Save the md5sum of the current curl command to logfile
+echo "$current_md5" > logfile
