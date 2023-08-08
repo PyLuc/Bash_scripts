@@ -11,7 +11,7 @@ backup_date=$(date +%d-%m-%Y)
 #print help message
 print_help () {
 	echo -e "enter hostname or ip adress of remote server and path to backup directory\n"
-	echo 'Sample'
+	echo "Sample"
 	echo -e "$0 <hostname || ip adress> <path to backup file>\n"
 	echo "Example"
 	echo "$0 www.example.com /home"
@@ -19,7 +19,8 @@ print_help () {
 
 #check correct number of arguments
 if [ $# -ne 2 ];then
-	print_help;exit 1
+	print_help
+	exit 1
 fi 
 
 #check if hostname or IP adress is valid
