@@ -1,33 +1,37 @@
 #!/bin/bash
 
 #backup the directory to remote server
+#log the process to backup_log file
 
 remote_server=$1
-backup_file=$2
+backup_directory=$2
 backup_log=~/backup_log
 backup_date=$(date +%d-%m-%Y)
 
+print help message
 print_help () {
-	echo -e "enter hostname or ip adress of remote server and path to backup file\n"
+	echo -e "enter hostname or ip adress of remote server and path to backup directory\n"
 	echo 'Sample'
 	echo -e "$0 <hostname || ip adress> <path to backup file>\n"
 	echo "Example"
 	echo "$0 www.example.com /home"
 }
 
+#check correct number of arguments
 if [ $# -ne 2 ];then
 	print_help;exit 1
 fi 
 
+#check if hostname or IP adress is valid
 if !  nslookup $remote_server>/dev/null;then
 	echo  "INVALID IP OR HOSTNAME"
 	print_help 
 	exit 1
 fi 
 
-#check if directory exists
-if [ ! -d $backup_file ]; then
-	echo "$backup_date backup file not exists">> $backup_log
+#check if backup directory exists
+if [ ! -d $backup_directory ]; then
+	echo "$backup_date backup directory not exists">> $backup_log
 	exit 1
 fi
 
@@ -39,8 +43,8 @@ fi
 
 echo "$backup_date Backup started">>$backup_log
 
-#send directory to remote server
-rsync -avz $backup_file $USER@$remote_server:~ &>>$backup_log
+#send directory to remote server using rsync
+rsync -avz $backup_directory $USER@$remote_server:~ &>>$backup_log
 
 if [ $? -ne 0 ]; then 
 	echo "$backup_date Backup failed">>$backup_log
