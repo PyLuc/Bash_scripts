@@ -1,16 +1,15 @@
 #!/bin/bash
 
-#check if URL was specified as an argument
-if [ $# -ne 1 ]; then echo 'No URL specified'; exit 1;fi
+read  -t 5 -p  "Enter the URL of website you want to check" url
 
 #download website content into curl_file2
-curl -s $1|mda5>>logfile
+curl -s $url|md5sum>>logfile
 
 if [ $? -ne 0 ];then echo 'Chyba stahovani'; exit 1;fi
 
 #compare with curl_file1 and check if website was updated
-if curl -s $1|mda5 -eq cat logfile;then
-  echo "website not changed"
-  else echo "website changed"
-fí 
+if [ "$(curl -s $url | md5sum)" == "$(cat logfile)" ]; then
+  echo "website changed"
+  else echo "website not changed"
+fi
 
