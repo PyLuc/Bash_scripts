@@ -1,16 +1,16 @@
 #!/bin/bash
-error_log=/home/log
 
 #check if URL was specified as an argument
 if [ $# -ne 1 ]; then echo 'No URL specified'; exit 1;fi
 
 #download website content into curl_file2
-curl -s $1  > curl_file2 2>>$error_log
+curl -s $1|mda5>>logfile
+
 if [ $? -ne 0 ];then echo 'Chyba stahovani'; exit 1;fi
 
 #compare with curl_file1 and check if website was updated
-if cmp -s curl_file2 curl_file1>/dev/null 2>>$error_log;
-then echo 'stranka  nebyla aktualizovana';
-else cat curl_file2 >curl_file1; echo 'byla aktualizovana';
-fi
+if curl -s $1|mda5 -eq cat logfile;then
+  echo "website not changed"
+  else echo "website changed"
+fí 
 
