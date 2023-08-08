@@ -1,9 +1,20 @@
 #!/bin/bash
-#when available memory is getting low, email will be sent
+#when disk usage of root file system is getting high, email will be sent
 
-available_memory=$(free --mega|awk 'NR==2{print $7}')
+
+#set correct your credentials to smtp server in /etc/postfix/sasl_passwd file
+#set correct /etc/postfix/main.cf file
+
+#fill in your email
+your_email=<email>
+
+#check disk usage of root file system
+disk_usage= $(df -h / | awk '/\// {print $5}' | tr -d '%')
 timestamp=$(date +%d-%m-%Y' '%T)
 
-if [ $available_memory -le 500 ];then echo "memory is lower than 500 Mb at $timestamp"|mail -s 'Low memory warning' lukaskrch92@gmail.com;fi
+#send email if disk usage is higher than 90%
+if [ $disk_usage -gt 90 ];then
+  echo "disk usage is higher than 90 at $timestamp"|mail -s 'Disk usage warning' your_email
+fi
 
 
