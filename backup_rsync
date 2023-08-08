@@ -8,7 +8,7 @@ backup_directory=$2
 backup_log=~/backup_log
 backup_date=$(date +%d-%m-%Y)
 
-print help message
+#print help message
 print_help () {
 	echo -e "enter hostname or ip adress of remote server and path to backup directory\n"
 	echo 'Sample'
