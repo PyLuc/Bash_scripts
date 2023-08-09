@@ -1,7 +1,6 @@
 #!/bin/bash
 
-# Read the URL of the website you want to check
-read -t 5 -p "Enter the URL of the website you want to check: " url
+url=$1
 
 # Get the md5sum of the current curl command
 current_md5=$(curl -s $url | md5sum)
