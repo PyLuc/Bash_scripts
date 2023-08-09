@@ -30,13 +30,12 @@ fi
 #check if hostname or IP adress is valid
 if !  nslookup $remote_server>/dev/null;then
 	echo  "INVALID IP OR HOSTNAME"
-	print_help 
 	exit 1
 fi 
 
 #check if backup directory exists
 if [ ! -d $backup_directory ]; then
-	echo "$backup_date backup directory not exists">> $backup_log
+	echo "$backup_date backup directory not exists"
 	exit 1
 fi
 
