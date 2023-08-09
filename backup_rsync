@@ -48,7 +48,7 @@ fi
 echo "$backup_date Backup started">>$backup_log
 
 #send directory to remote server using rsync
-rsync -avz --timeout=10 -e "ssh -i /path/to/private/key -o ConnectTimeout=5"  $backup_directory $remote_username@$remote_server:~ &>>$backup_log
+rsync -avz --timeout=10 -e "ssh -i ~/.ssh  -o ConnectTimeout=5"  $backup_directory $remote_username@$remote_server:~ &>>$backup_log
 
 if [ $? -ne 0 ]; then 
 		echo "$backup_date Backup failed">>$backup_log
