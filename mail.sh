@@ -5,8 +5,12 @@
 #set correct your credentials to smtp server in /etc/postfix/sasl_passwd file
 #set correct /etc/postfix/main.cf file
 
-#fill in your email
-your_email=<email>
+your_email=$1
+
+#check number of arguments
+if [ $# -ne 1 ];then
+  exit 1
+fi
 
 #check disk usage of root file system
 disk_usage=$(df -h / | awk '/\// {print $5}' | tr -d '%')
