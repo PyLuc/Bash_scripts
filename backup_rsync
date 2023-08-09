@@ -35,13 +35,13 @@ fi
 
 #check if backup directory exists
 if [ ! -d $backup_directory ]; then
-	echo "$backup_date backup directory not exists"
+	echo "backup directory not exists"
 	exit 1
 fi
 
 #check connection to remote server
 if ! ping -c1 $remote_server &>/dev/null; then
-	echo "$backup_date Remote server unreachable">>$backup_log
+	echo "Remote server unreachable"
 	exit 1
 fi
 
@@ -51,6 +51,7 @@ echo "$backup_date Backup started">>$backup_log
 rsync -avz $backup_directory $remote_username@$remote_server:~ &>>$backup_log
 
 if [ $? -ne 0 ]; then 
-	echo "$backup_date Backup failed">>$backup_log
-	else  echo "$backup_date Backup succesfull">>$backup_log
+		echo "$backup_date Backup failed">>$backup_log
+	else  
+		echo "$backup_date Backup succesfull">>$backup_log
 fi
