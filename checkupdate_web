@@ -9,7 +9,7 @@ if [ $# -ne 1 ],then
 fi
 
 #Check the conntection to website
-curl -Is $1
+curl -Is $1>/dev/null
 
 if [ $? -ne 0 ],then
 	echo "Website not available"|tee $logfile
