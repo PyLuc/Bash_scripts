@@ -1,6 +1,15 @@
 #!/bin/bash
 
 url=$1
+logfile=~/webchange_log
+
+#Check the conntection to website
+curl -Is $1
+
+if [ $# -ne 0 ],then
+	echo "Website not available"|tee $logfile
+	exit 1
+fi
 
 # Get the md5sum of the current curl command
 current_md5=$(curl -s $url | md5sum)
@@ -10,9 +19,9 @@ previous_md5=$(cat logfile)
 
 # Compare the md5sums
 if [ "$current_md5" == "$previous_md5" ]; then
-    echo "Website not changed"
+    echo "Website not changed"|tee $logfile
 else
-    echo "Website changed"
+    echo "Website changed"|tee $lofgile
 fi
 
 # Save the md5sum of the current curl command to logfile
