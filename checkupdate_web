@@ -3,10 +3,15 @@
 url=$1
 logfile=~/webchange_log
 
+if [ $# -ne 1 ],then
+        echo "Missing parameter"|tee $logfile
+        exit 1
+fi
+
 #Check the conntection to website
 curl -Is $1
 
-if [ $# -ne 0 ],then
+if [ $? -ne 0 ],then
 	echo "Website not available"|tee $logfile
 	exit 1
 fi
