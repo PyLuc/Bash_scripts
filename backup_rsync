@@ -24,7 +24,7 @@ print_help () {
 }
 
 #check correct number of arguments
-if [ $# -ne 2 ];then
+if [ $# -ne 3 ];then
 	print_help
 	exit 1
 fi 
