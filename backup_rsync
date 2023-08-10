@@ -25,25 +25,26 @@ print_help () {
 
 #check correct number of arguments
 if [ $# -ne 3 ];then
+	echo "Bad number of argument"|tee backup_log
 	print_help
 	exit 1
 fi 
 
 #check if hostname or IP adress is valid
 if !  nslookup $remote_server>/dev/null;then
-	echo  "INVALID IP OR HOSTNAME"
+	echo  "INVALID IP OR HOSTNAME"|tee backup_log
 	exit 1
 fi 
 
 #check if backup directory exists
 if [ ! -d $backup_directory ]; then
-	echo "backup directory not exists"
+	echo "backup directory not exists"|tee backup_log
 	exit 1
 fi
 
 #check connection to remote server
 if ! ping -c1 $remote_server &>/dev/null; then
-	echo "Remote server unreachable"
+	echo "Remote server unreachable"|tee backup_log
 	exit 1
 fi
 
