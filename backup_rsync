@@ -8,8 +8,10 @@ backup_directory=$2
 backup_log=~/backup_log
 backup_date=$(date +%d-%m-%Y)
 
-#if remote username different from $USER then change the variable remote_username
-remote_username=$USER
+
+#if remote username different from $USER then use $3 parameter
+#default $3 parameter
+remote_username=${3:-$USER}
 
 #print help message
 print_help () {
