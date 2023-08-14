@@ -1,6 +1,6 @@
 #!/bin/bash
-#when disk usage of root file system is getting high, email will be sent
 
+#when disk usage of root file system is getting high, email will be sent
 
 #set correct your credentials to smtp server in /etc/postfix/sasl_passwd file
 #set correct /etc/postfix/main.cf file
