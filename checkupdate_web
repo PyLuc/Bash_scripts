@@ -4,6 +4,7 @@ url=$1
 md5file=~/md5file
 logfile=~/webchange_log
 
+#Check number of arguments
 if [ $# -ne 1 ],then
         echo "Missing parameter"|tee -a $logfile
         exit 1
