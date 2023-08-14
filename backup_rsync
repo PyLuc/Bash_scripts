@@ -20,31 +20,31 @@ print_help () {
 	echo -e "$0 <hostname || ip adress> <path to backup file>\n"
 	echo "Example"
 	echo "$0 www.example.com /home"
-	echo "if remote username different from $USER then change the variable remote_username"
+	echo "if remote username different from $USER then use $3 parameter"
 }
 
 #check correct number of arguments
 if [ $# -ne 3 ];then
-	echo "Bad number of argument"|tee -a backup_log
+	echo "Bad number of argument"|tee -a $backup_log
 	print_help
 	exit 1
 fi 
 
 #check if hostname or IP adress is valid
-if !  nslookup $remote_server>/dev/null;then
-	echo  "INVALID IP OR HOSTNAME"|tee -a backup_log
+if !  nslookup $remote_server&>/dev/null;then
+	echo  "INVALID IP OR HOSTNAME"|tee -a $backup_log
 	exit 1
 fi 
 
 #check if backup directory exists
 if [ ! -d $backup_directory ]; then
-	echo "backup directory not exists"|tee -a backup_log
+	echo "backup directory not exists"|tee -a $backup_log
 	exit 1
 fi
 
 #check connection to remote server
 if ! ping -c1 $remote_server &>/dev/null; then
-	echo "Remote server unreachable"|tee -a backup_log
+	echo "Remote server unreachable"|tee -a $backup_log
 	exit 1
 fi
 
